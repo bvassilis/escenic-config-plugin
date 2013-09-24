@@ -1,0 +1,15 @@
+target/
+.settings/
+.project
+.classpath
+*.*~
+*.pyc
+nbproject
+nbproject/*
+settings_local.py
+*.db
+.DS_Store
+nb-configuration.xml
+*.orig
+derby.log
+.externalToolBuilders/
