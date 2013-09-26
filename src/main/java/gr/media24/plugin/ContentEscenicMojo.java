@@ -43,16 +43,30 @@ import org.apache.maven.plugin.MojoFailureException;
  * @phase generate-resources
  */
 public class ContentEscenicMojo extends AbstractMojo {
-
+	
+	private static final String CONTENT_TYPE_ECE_PATH = "/src/main/webapp/META-INF/escenic/publication-resources/escenic/content-type"; 
+	
+	/**
+	 * Maven Project.
+	 * @parameter expression="${project.basedir}"
+	 */
+	private File projectDirectory;
+	
 	/**
 	 * @parameter generic publication resources
+	 * @required
 	 */
 	private File publicationResources;
 
 	/**
 	 * @parameter widgets folder path
+	 * @required
 	 */
 	private File widgetsDirectory;
+	
+	public ContentEscenicMojo() {
+		projectDirectory = new File("");
+	}
 
 	@SuppressWarnings("resource")
 	public void execute() throws MojoExecutionException, MojoFailureException {
@@ -63,9 +77,11 @@ public class ContentEscenicMojo extends AbstractMojo {
 			throw new MojoFailureException("Widget directory doesn't exist");
 		}
 		// input/output file names
-		String outputFileName = publicationResources.getAbsolutePath().replace("24media", "escenic").replace("basic-content-items.xml", "") + "escenic/content-type";
-
+		String outputFileName = projectDirectory.getAbsolutePath() + CONTENT_TYPE_ECE_PATH;
+		File outputFile = new File(outputFileName);
 		try {
+			//create output file if not exist
+			outputFile.createNewFile();
 			// Create FileReader Object
 			FileReader inputFileReader = new FileReader(publicationResources);
 			FileWriter outputFileReader = new FileWriter(outputFileName);
@@ -101,12 +117,16 @@ public class ContentEscenicMojo extends AbstractMojo {
 
 			// write widget content-types
 			for (File widget : widgetsFolders) {
-				if (!widget.isDirectory())
+				if (!widget.isDirectory()) {
 					continue;
+				}
 
+				// 24 MEDIA assertion
 				File widgetContentType = new File(widget.getAbsolutePath() + "/resources/" + widget.getName() + ".content-type.xml");
-				if (!widgetContentType.exists())
-					throw new MojoFailureException(" No content-type defined for the widget " + widget.getName());
+				
+				if (!widgetContentType.exists()) {
+					throw new MojoFailureException("No content-type defined for the widget " + widget.getName());
+				}
 				inputFileReader = new FileReader(widgetContentType);
 				// Create Buffered/PrintWriter Objects
 				inputStream = new BufferedReader(inputFileReader);

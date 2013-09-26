@@ -37,7 +37,7 @@ public class ContentEscenicMojoTest {
 		contentEscenicMojo.execute();
 	}
 	
-	@Ignore
+	@Test
 	public void testExecute() throws MojoExecutionException, MojoFailureException{
 		File file = new File(ContentEscenicMojoTest.class.getResource("./WidgetsFolder").getPath()); 
 		contentEscenicMojo.setWidgetsDirectory(file);

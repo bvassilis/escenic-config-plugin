@@ -1,0 +1,9 @@
+<content-types xmlns="http://xmlns.escenic.com/2008/content-type" xmlns:ui="http://xmlns.escenic.com/2008/interface-hints" 
+xmlns:geocode="http://xmlns.escenic.com/2009/studio/plugin/geocode" xmlns:rep="http://xmlns.escenic.com/2009/representations" version="4">
+
+
+<ui:group name="widgets">
+<ui:label>Widgets</ui:label>
+</ui:group>
+
+</content-types>
